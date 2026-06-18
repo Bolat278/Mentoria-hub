@@ -27,7 +27,7 @@ export default function CoursePlayer() {
           .select('completed')
           .eq('user_id', user.id)
           .eq('course_id', id)
-          .single();
+          .maybeSingle();
           
         if (progress?.completed) {
           setCompleted(true);
@@ -95,24 +95,58 @@ export default function CoursePlayer() {
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <VideoQuizPlayer
-          videoUrl={course.video_url}
-          quizQuestion={course.quiz_question || "What is the main topic discussed so far?"}
-          quizOptions={course.quiz_options || ["Option A", "Option B", "Option C", "Option D"]}
-          correctIndex={course.quiz_correct_index || 0}
-          pauseAtSeconds={course.quiz_pause_at_seconds || 10}
-          onQuizPassed={handleQuizPassed}
-        />
+        {course.video_url ? (
+          <VideoQuizPlayer
+            videoUrl={course.video_url}
+            quizQuestion={course.quiz_question || "What is the main topic discussed so far?"}
+            quizOptions={course.quiz_options || ["Option A", "Option B", "Option C", "Option D"]}
+            correctIndex={course.quiz_correct_index || 0}
+            pauseAtSeconds={course.quiz_pause_at_seconds || 10}
+            onQuizPassed={handleQuizPassed}
+          />
+        ) : (
+          <div className="w-full aspect-video bg-black/40 rounded-2xl flex flex-col items-center justify-center border border-white/10">
+            <h3 className="text-xl font-bold mb-4">Course Video Pending</h3>
+            <button onClick={handleQuizPassed} className="btn-primary">Mark as Completed</button>
+          </div>
+        )}
       </motion.div>
 
-      <div className="glass-panel p-6">
-        <h3 className="text-xl font-bold mb-4">Course Material & Tags</h3>
-        <div className="flex flex-wrap gap-2">
-          {course.tags?.map(tag => (
-            <span key={tag} className="bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg text-sm text-gray-300">
-              {tag}
-            </span>
-          ))}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="md:col-span-2 glass-panel p-6">
+          <h3 className="text-xl font-bold mb-4">Конспект и введение (Course Notes)</h3>
+          <div className="prose prose-invert max-w-none text-gray-300">
+            <p>{course.description}</p>
+            {course.file_url ? (
+              <div className="mt-6 p-4 bg-accent/10 border border-accent/20 rounded-xl flex items-center justify-between">
+                <div>
+                  <h4 className="font-bold text-white mb-1">Дополнительные материалы</h4>
+                  <p className="text-sm text-gray-400">Скачайте файл с дополнительной информацией по курсу.</p>
+                </div>
+                <a href={course.file_url} target="_blank" rel="noreferrer" className="btn-primary py-2 px-4 whitespace-nowrap">
+                  Открыть файл
+                </a>
+              </div>
+            ) : (
+              <div className="mt-6 p-4 bg-white/5 border border-white/10 rounded-xl">
+                <p className="text-sm text-gray-400">К этому уроку файлы пока не прикреплены.</p>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="glass-panel p-6">
+          <h3 className="text-xl font-bold mb-4">Tags</h3>
+          <div className="flex flex-wrap gap-2">
+            {course.tags?.map(tag => (
+              <span key={tag} className="bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg text-sm text-gray-300">
+                {tag}
+              </span>
+            ))}
+            {(!course.tags || course.tags.length === 0) && (
+              <span className="text-gray-500 text-sm">No tags</span>
+            )}
+          </div>
         </div>
       </div>
     </div>
