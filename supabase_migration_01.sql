@@ -1,29 +1,22 @@
 -- ==========================================
 -- ROLE MODIFICATION
 -- ==========================================
--- Drop existing constraint safely
 alter table profiles drop constraint if exists profiles_role_check;
--- Re-add constraint to allow 'teacher'
 alter table profiles add constraint profiles_role_check check (role in ('student', 'teacher', 'admin'));
--- Also alter the table just in case the column is somehow missing
 alter table profiles add column if not exists role text check (role in ('teacher', 'student', 'admin')) default 'student';
 
 -- ==========================================
--- TEACHER UPLOADED COURSES
+-- COURSES (Update existing table)
 -- ==========================================
-create table if not exists courses (
-  id uuid primary key default gen_random_uuid(),
-  teacher_id uuid references auth.users(id) on delete cascade,
-  title text not null,
-  description text,
-  file_url text,
-  file_type text,
-  created_at timestamptz default now()
-);
+-- The courses table might already exist. We add the new columns needed for the teacher dashboard.
+alter table courses add column if not exists teacher_id uuid references auth.users(id) on delete cascade;
+alter table courses add column if not exists file_url text;
+alter table courses add column if not exists file_type text;
 
 -- ==========================================
 -- TEACHER UPLOADED OLYMPIADS
 -- ==========================================
+-- This is a new table
 create table if not exists olympiads (
   id uuid primary key default gen_random_uuid(),
   teacher_id uuid references auth.users(id) on delete cascade,
