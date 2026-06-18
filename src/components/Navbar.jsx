@@ -32,20 +32,27 @@ export default function Navbar() {
                 <Link to="/dashboard" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center gap-2 transition-colors">
                   <LayoutDashboard className="w-4 h-4" /> Dashboard
                 </Link>
-                <Link to="/catalog" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center gap-2 transition-colors">
-                  <Search className="w-4 h-4" /> Catalog
-                </Link>
-                <Link to="/courses" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center gap-2 transition-colors">
-                  <BookOpen className="w-4 h-4" /> Courses
-                </Link>
-                <Link to="/roadmap" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center gap-2 transition-colors">
-                  <Map className="w-4 h-4" /> Roadmap
+                {profile?.role !== 'teacher' && profile?.role !== 'admin' && (
+                  <>
+                    <Link to="/catalog" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center gap-2 transition-colors">
+                      <Search className="w-4 h-4" /> Catalog
+                    </Link>
+                    <Link to="/courses" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center gap-2 transition-colors">
+                      <BookOpen className="w-4 h-4" /> Courses
+                    </Link>
+                    <Link to="/roadmap" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center gap-2 transition-colors">
+                      <Map className="w-4 h-4" /> Roadmap
+                    </Link>
+                    <Link to="/favorites" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center gap-2 transition-colors">
+                      <Heart className="w-4 h-4" /> Favorites
+                    </Link>
+                  </>
+                )}
+                <Link to="/messages" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center gap-2 transition-colors">
+                  <MessageSquare className="w-4 h-4" /> Messages
                 </Link>
                 <Link to="/leaderboard" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center gap-2 transition-colors">
                   <Trophy className="w-4 h-4 text-yellow-500" /> Leaderboard
-                </Link>
-                <Link to="/favorites" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center gap-2 transition-colors">
-                  <Heart className="w-4 h-4" /> Favorites
                 </Link>
               </div>
             </div>
