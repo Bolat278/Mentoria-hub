@@ -27,7 +27,7 @@ export default function Auth() {
         const { data: { user } } = await supabase.auth.getUser();
         const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single();
         
-        if (!profile || !profile.grade) {
+        if (!profile || (!profile.grade && profile.role !== 'teacher') || (!profile.full_name && profile.role === 'teacher')) {
           navigate('/onboarding');
         } else {
           navigate('/dashboard');

@@ -97,11 +97,14 @@ export default function Onboarding() {
                 />
                 <div className="mt-auto pt-8 flex justify-end">
                   <button 
-                    onClick={nextStep}
-                    disabled={!formData.fullName.trim()}
+                    onClick={() => {
+                      if (profile?.role === 'teacher') handleComplete();
+                      else nextStep();
+                    }}
+                    disabled={!formData.fullName.trim() || loading}
                     className="btn-primary flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Continue <ChevronRight className="w-5 h-5" />
+                    {profile?.role === 'teacher' ? (loading ? 'Saving...' : 'Finish') : 'Continue'} <ChevronRight className="w-5 h-5" />
                   </button>
                 </div>
               </motion.div>
