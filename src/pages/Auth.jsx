@@ -43,7 +43,23 @@ export default function Auth() {
         navigate('/onboarding');
       }
     } catch (err) {
-      setError(err.message);
+      console.error("Auth error:", err);
+      let errorMsg = err.message || "Произошла неизвестная ошибка";
+      
+      const lowerError = errorMsg.toLowerCase();
+      if (errorMsg === '{}' || errorMsg === '[object Object]') {
+        errorMsg = "Ошибка сервера (Сбой отправки письма). Разработчику: проверьте настройки SMTP в Supabase.";
+      } else if (lowerError.includes('email rate limit')) {
+        errorMsg = "Слишком много попыток. Подождите 1 час или отключите 'Confirm Email' в Supabase.";
+      } else if (lowerError.includes('email not confirmed')) {
+        errorMsg = "Почта не подтверждена. Разработчику: отключите 'Confirm Email' в настройках Supabase (Authentication -> Providers -> Email).";
+      } else if (lowerError.includes('invalid login credentials')) {
+        errorMsg = "Неверный email или пароль.";
+      } else if (lowerError.includes('user already registered')) {
+        errorMsg = "Пользователь с таким email уже существует.";
+      }
+      
+      setError(errorMsg);
     } finally {
       setLoading(false);
     }
