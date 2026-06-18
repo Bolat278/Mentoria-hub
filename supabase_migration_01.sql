@@ -6,9 +6,22 @@ alter table profiles add constraint profiles_role_check check (role in ('student
 alter table profiles add column if not exists role text check (role in ('teacher', 'student', 'admin')) default 'student';
 
 -- ==========================================
+-- PROFILES RLS POLICIES (Fix for signup error)
+-- ==========================================
+alter table profiles enable row level security;
+
+drop policy if exists "Public profiles are viewable by everyone." on profiles;
+create policy "Public profiles are viewable by everyone." on profiles for select using (true);
+
+drop policy if exists "Users can insert their own profile." on profiles;
+create policy "Users can insert their own profile." on profiles for insert with check (auth.uid() = id);
+
+drop policy if exists "Users can update own profile." on profiles;
+create policy "Users can update own profile." on profiles for update using (auth.uid() = id);
+
+-- ==========================================
 -- COURSES (Update existing table)
 -- ==========================================
--- The courses table might already exist. We add the new columns needed for the teacher dashboard.
 alter table courses add column if not exists teacher_id uuid references auth.users(id) on delete cascade;
 alter table courses add column if not exists file_url text;
 alter table courses add column if not exists file_type text;
@@ -16,7 +29,6 @@ alter table courses add column if not exists file_type text;
 -- ==========================================
 -- TEACHER UPLOADED OLYMPIADS
 -- ==========================================
--- This is a new table
 create table if not exists olympiads (
   id uuid primary key default gen_random_uuid(),
   teacher_id uuid references auth.users(id) on delete cascade,
@@ -28,7 +40,7 @@ create table if not exists olympiads (
 );
 
 -- ==========================================
--- ROW LEVEL SECURITY (RLS)
+-- ROW LEVEL SECURITY (RLS) FOR COURSES/OLYMPIADS
 -- ==========================================
 alter table courses enable row level security;
 drop policy if exists "Teachers can insert own courses" on courses;
