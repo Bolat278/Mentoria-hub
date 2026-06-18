@@ -38,7 +38,12 @@ export default function Auth() {
         
         // Auto-create basic profile
         if (data?.user) {
-          await supabase.from('profiles').insert([{ id: data.user.id, role }]);
+          const { error: profileError } = await supabase.from('profiles').insert([{ id: data.user.id, role }]);
+          if (profileError) {
+            console.error('Failed to create profile:', profileError);
+            setError(`Ошибка при сохранении профиля. Убедитесь, что вы запустили SQL-миграцию в Supabase: ${profileError.message}`);
+            return;
+          }
         }
         
         navigate('/onboarding');
