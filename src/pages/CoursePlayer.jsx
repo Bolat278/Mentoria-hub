@@ -17,6 +17,8 @@ export default function CoursePlayer() {
 
   useEffect(() => {
     const fetchCourse = async () => {
+      if (!user) return;
+      
       try {
         const { data, error } = await supabase.from('courses').select('*').eq('id', id).single();
         if (error) throw error;
@@ -74,7 +76,7 @@ export default function CoursePlayer() {
         <div className="bg-red-500/10 border border-red-500/50 p-6 rounded-xl max-w-md text-center">
           <h2 className="text-xl font-bold text-red-500 mb-2">Error Loading Course</h2>
           <p className="text-gray-300 mb-6">{error}</p>
-          <Link to="/courses" className="btn-primary">Back to Courses</Link>
+          <Link to="/courses" className="btn-primary inline-block">Back to Courses</Link>
         </div>
       </div>
     );
