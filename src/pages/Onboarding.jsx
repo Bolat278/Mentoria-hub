@@ -9,7 +9,7 @@ const GRADES = [8, 9, 10, 11];
 const INTERESTS = ['STEM', 'Business', 'Programming', 'Arts', 'Law', 'Medicine', 'Languages', 'Social Sciences'];
 
 export default function Onboarding() {
-  const { user, refetchProfile } = useUser();
+  const { user, profile, refetchProfile } = useUser();
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
