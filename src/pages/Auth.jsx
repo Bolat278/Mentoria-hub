@@ -8,6 +8,7 @@ export default function Auth() {
   const [isSignIn, setIsSignIn] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('student');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ export default function Auth() {
         
         // Auto-create basic profile
         if (data?.user) {
-          await supabase.from('profiles').insert([{ id: data.user.id }]);
+          await supabase.from('profiles').insert([{ id: data.user.id, role }]);
         }
         
         navigate('/onboarding');
@@ -89,6 +90,35 @@ export default function Auth() {
         )}
 
         <form onSubmit={handleAuth} className="space-y-4">
+          {!isSignIn && (
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Я регистрируюсь как:</label>
+              <div className="grid grid-cols-2 gap-4">
+                <button
+                  type="button"
+                  onClick={() => setRole('student')}
+                  className={`py-3 rounded-xl border transition-all ${
+                    role === 'student'
+                      ? 'bg-accent/20 border-accent text-accent'
+                      : 'bg-white/5 border-white/10 text-gray-400 hover:bg-white/10'
+                  }`}
+                >
+                  Ученик
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setRole('teacher')}
+                  className={`py-3 rounded-xl border transition-all ${
+                    role === 'teacher'
+                      ? 'bg-accent/20 border-accent text-accent'
+                      : 'bg-white/5 border-white/10 text-gray-400 hover:bg-white/10'
+                  }`}
+                >
+                  Учитель
+                </button>
+              </div>
+            </div>
+          )}
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">Email</label>
             <div className="relative">

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../hooks/useUser';
 import { supabase } from '../lib/supabase';
-import { BookOpen, Map, Search, Heart, LayoutDashboard, LogOut, Settings, GraduationCap } from 'lucide-react';
+import { BookOpen, Map, Search, Heart, LayoutDashboard, LogOut, Settings, GraduationCap, Trophy } from 'lucide-react';
 
 export default function Navbar() {
   const { user, profile } = useUser();
@@ -38,6 +38,9 @@ export default function Navbar() {
                 </Link>
                 <Link to="/roadmap" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center gap-2 transition-colors">
                   <Map className="w-4 h-4" /> Roadmap
+                </Link>
+                <Link to="/leaderboard" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center gap-2 transition-colors">
+                  <Trophy className="w-4 h-4 text-yellow-500" /> Leaderboard
                 </Link>
                 <Link to="/favorites" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center gap-2 transition-colors">
                   <Heart className="w-4 h-4" /> Favorites

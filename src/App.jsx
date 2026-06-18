@@ -12,6 +12,7 @@ import Courses from './pages/Courses';
 import CoursePlayer from './pages/CoursePlayer';
 import Roadmap from './pages/Roadmap';
 import Favorites from './pages/Favorites';
+import Leaderboard from './pages/Leaderboard';
 import Admin from './pages/Admin';
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
             <Route path="/courses" element={<ProtectedRoute><Courses /></ProtectedRoute>} />
             <Route path="/courses/:id" element={<ProtectedRoute><CoursePlayer /></ProtectedRoute>} />
             <Route path="/roadmap" element={<ProtectedRoute><Roadmap /></ProtectedRoute>} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/favorites" element={<ProtectedRoute><Favorites /></ProtectedRoute>} />
 
             {/* Admin Route */}

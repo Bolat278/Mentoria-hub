@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase';
 import { Heart, PlayCircle, Map as MapIcon, ArrowRight, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import TeacherDashboard from '../components/TeacherDashboard';
 
 export default function Dashboard() {
   const { user, profile } = useUser();
@@ -62,6 +63,14 @@ export default function Dashboard() {
 
   if (loading) {
     return <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-accent" /></div>;
+  }
+
+  if (profile?.role === 'teacher') {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <TeacherDashboard user={user} profile={profile} />
+      </div>
+    );
   }
 
   return (
