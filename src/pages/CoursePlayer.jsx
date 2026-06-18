@@ -13,6 +13,7 @@ export default function CoursePlayer() {
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
   const [completed, setCompleted] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -34,7 +35,7 @@ export default function CoursePlayer() {
         }
       } catch (err) {
         console.error('Error fetching course:', err);
-        navigate('/courses');
+        setError(err.message || 'Failed to load course. Please try again later.');
       } finally {
         setLoading(false);
       }
@@ -65,6 +66,18 @@ export default function CoursePlayer() {
 
   if (loading) {
     return <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-accent" /></div>;
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center">
+        <div className="bg-red-500/10 border border-red-500/50 p-6 rounded-xl max-w-md text-center">
+          <h2 className="text-xl font-bold text-red-500 mb-2">Error Loading Course</h2>
+          <p className="text-gray-300 mb-6">{error}</p>
+          <Link to="/courses" className="btn-primary">Back to Courses</Link>
+        </div>
+      </div>
+    );
   }
 
   if (!course) return null;
