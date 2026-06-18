@@ -18,9 +18,11 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <Link to="/" className="flex items-center gap-2">
-              <GraduationCap className="w-8 h-8 text-accent" />
-              <span className="text-xl font-bold text-white tracking-tight">Mentoria <span className="text-accent">Hub</span></span>
+            <Link to="/" className="flex items-center gap-3 group">
+              <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden relative group-hover:border-accent/50 transition-colors">
+                <img src="/logo.png" alt="Mentoria Hub Logo" className="w-full h-full object-cover" />
+              </div>
+              <span className="font-bold text-xl tracking-tight hidden sm:block">Mentoria <span className="text-accent">Hub</span></span>
             </Link>
           </div>
           
