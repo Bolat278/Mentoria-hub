@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../hooks/useUser';
 import { supabase } from '../lib/supabase';
-import { BookOpen, Map, Search, Heart, LayoutDashboard, LogOut, Settings, GraduationCap, Trophy } from 'lucide-react';
+import { BookOpen, Map, Search, Heart, LayoutDashboard, LogOut, Settings, GraduationCap, Trophy, MessageSquare } from 'lucide-react';
 
 export default function Navbar() {
   const { user, profile } = useUser();

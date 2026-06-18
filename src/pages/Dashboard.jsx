@@ -81,7 +81,14 @@ export default function Dashboard() {
         className="mb-8"
       >
         <h1 className="text-3xl font-bold">Welcome back, {profile?.full_name?.split(' ')[0] || 'Student'}! 👋</h1>
-        <p className="text-gray-400 mt-2">Here is what's happening with your learning journey.</p>
+        {profile?.goals ? (
+          <div className="mt-4 p-4 bg-accent/10 border border-accent/20 rounded-xl max-w-2xl">
+            <h3 className="text-sm font-bold text-accent mb-1 uppercase tracking-wider">My Current Goal</h3>
+            <p className="text-gray-300 italic">"{profile.goals}"</p>
+          </div>
+        ) : (
+          <p className="text-gray-400 mt-2">Here is what's happening with your learning journey.</p>
+        )}
       </motion.div>
 
       <motion.div 
